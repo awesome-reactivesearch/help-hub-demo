@@ -1,0 +1,74 @@
+@keyframes glowing {
+  0% {
+    box-shadow: 0 0 5px #47b5ff;
+  }
+  50% {
+    box-shadow: 0 0 20px #47b5ff, 0 0 30px #47b5ff;
+  }
+  100% {
+    box-shadow: 0 0 5px #47b5ff;
+  }
+}
+
+.ask-ai-button {
+  display: inline-block;
+  position: relative;
+  padding: 5px 10px;
+  background-color: #f8f8f8;
+  border: 2px solid transparent;
+  border-radius: 0;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  color: #333333;
+  cursor: pointer;
+  overflow: hidden;
+  animation: glowing 2s infinite;
+  height: 42px;
+}
+
+.ask-ai-button:before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid transparent;
+  border-radius: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
+  animation: glowing 2s infinite;
+}
+
+.ask-ai-button:hover:before {
+  opacity: 1;
+}
+
+.button-text {
+  position: relative;
+  z-index: 1;
+}
+
+.button-emoji {
+  margin-right: 10px;
+}
+
+.button-emoji svg {
+  transform: scale(1.7);
+}
+
+/* Add additional styles to fit a light and AI-oriented theme */
+body {
+  background-color: #f8f8f8;
+}
+
+.ask-ai-button {
+  background-color: #ffffff;
+  color: #333333;
+}
+
+.ask-ai-button:before {
+  border-color: #47b5ff;
+  box-shadow: 0 0 5px #47b5ff;
+}
