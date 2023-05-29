@@ -1,28 +1,111 @@
-import React from "react";
+import React, { useState } from "react";
+import {
+  ReactiveBase,
+  SearchBox,
+  ReactiveList,
+  TagCloud,
+  AIAnswer,
+} from "@appbaseio/reactivesearch";
 import QuestionCard from "./components/QuestionCard/QuestionCard.component";
+import AIButton from "./components/AIButton/AIButton.component";
+import ResponsiveWrapper from "./components/ResponsiveWrapper/ResponsiveWrapper.component";
 
 const App = () => {
-  const record = {
-    body: "I've written a database generation script...",
-    closedDate: null,
-    tags: "flex,actionscript-3,air",
-    title: "SQLStatement.execute() - multiple queries in one statement",
-    answers: [
-      {
-        Body: "I wound up using this. It is a kind of a hack...",
-        OwnerUserId: 26,
-        Score: 12,
-        Id: 124,
-        CreationDate: "2008-08-01T16:09:47Z",
-      },
-    ],
-    score: 26,
-    ownerUserId: 26,
-    creationDate: "2008-08-01T13:57:07Z",
-    id: 80,
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [showAIAnswer, setShowAIAnswer] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+
+  const handleAskAIClick = () => {
+    setShowAIAnswer(!!searchValue);
   };
 
-  return <QuestionCard record={record} />;
+  return (
+    <ReactiveBase
+      app="stackoverflow-dataset"
+      url="https://a03a1cb71321:75b6603d-9456-4a5a-af6b-a487b309eb61@appbase-demo-ansible-abxiydt-arc.searchbase.io"
+      reactivesearchAPIConfig={{
+        recordAnalytics: true,
+        userId: "jon",
+      }}
+    >
+      <div className="col">
+        <div className="searchbox-wrapper">
+          <SearchBox
+            dataField={["title", "title.search"]}
+            componentId="search-sensor"
+            highlight
+            URLParams
+            size={5}
+            enableRecentSuggestions
+            recentSuggestionsConfig={{ size: 2, minChars: 3 }}
+            queryFormat="and"
+            onValueSelected={(val) => {
+              console.log("current seachbox value", val);
+            }}
+            value={searchValue}
+            onChange={(val) => {
+              setSearchValue(val);
+            }}
+            style={{ flex: 1 }}
+          />
+          {<AIButton text="Ask AI" emoji={"🤖"} onClick={handleAskAIClick} />}
+        </div>
+        <br />
+        <div className="row">
+          <div className="col">
+            {showAIAnswer && (
+              <ResponsiveWrapper
+                onBackButtonClick={() => setShowAIAnswer(false)}
+              >
+                <AIAnswer
+                  componentId="ai-answer"
+                  react={{ and: "search-sensor" }}
+                />
+              </ResponsiveWrapper>
+            )}
+            <ReactiveList
+              queryFormat="and"
+              componentId="SearchResult"
+              dataField="title"
+              size={10}
+              className="result-list-container"
+              pagination
+              react={{
+                and: ["search-sensor", "tags-filter"],
+              }}
+              renderItem={(item) => {
+                return (
+                  <QuestionCard
+                    key={item.id}
+                    record={item}
+                    selectedTags={selectedTags}
+                  />
+                );
+              }}
+              loader={"Loading... 🔎"}
+              showLoader
+            />
+          </div>
+          <div className="col tags-filter-wrapper">
+            <TagCloud
+              componentId="tags-filter"
+              dataField="tags"
+              showCount={true}
+              multiSelect={true}
+              react={{
+                and: ["search-sensor"],
+              }}
+              loader="Loading Tags... 🏷️"
+              queryFormat="and"
+              onValueChange={(val) => {
+                setSelectedTags(val);
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    </ReactiveBase>
+  );
 };
 
 export default App;
