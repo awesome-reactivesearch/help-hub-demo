@@ -2,7 +2,8 @@ import React from "react";
 
 import "./QuestionCard.css";
 
-const QuestionCard = ({ record }) => {
+const QuestionCard = ({ record, selectedTags }) => {
+  const { tags } = record;
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate();
@@ -22,7 +23,7 @@ const QuestionCard = ({ record }) => {
   };
 
   const scoreClassName = record.score > 0 ? "positive" : "negative";
-
+  const recordTags = typeof tags === "string" ? tags.split(",") : [...tags];
   return (
     <div className="question-card">
       <div className="question-card__voting">
@@ -32,15 +33,31 @@ const QuestionCard = ({ record }) => {
       </div>
       <div className="question-card__content">
         <div className="question-card__question">
-          <div className="question-card__ellipsis">{record.title}</div>
-          <div className="question-card__tooltip">{record.title}</div>
+          <div
+            className="question-card__ellipsis"
+            dangerouslySetInnerHTML={{
+              __html: record.title,
+            }}
+          ></div>
+          <div
+            className="question-card__tooltip"
+            dangerouslySetInnerHTML={{
+              __html: record.title,
+            }}
+          ></div>
         </div>
         <div className="question-card__answer">
           {record.answers.length > 0 && record.answers[0].Body}
         </div>
         <div className="question-card__tags">
-          {record.tags.split(",").map((tag) => (
-            <span key={tag} className="question-card__tag">
+          {recordTags.map((tag) => (
+            <span
+              key={tag}
+              className={
+                "question-card__tag" +
+                (selectedTags.includes(tag) ? " --tag-selected" : "")
+              }
+            >
               {tag}
             </span>
           ))}
