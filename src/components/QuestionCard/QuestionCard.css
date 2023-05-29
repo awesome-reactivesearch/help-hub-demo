@@ -1,0 +1,127 @@
+.question-card {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.question-card__voting {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 16px;
+}
+
+.question-card__score {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.question-card__content {
+  flex: 1;
+  margin-right: 16px;
+}
+
+.question-card__title {
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.question-card__ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 3.6em;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.question-card__tooltip {
+  display: none;
+  /* Styles for the tooltip */
+}
+
+.question-card__answer {
+  margin-bottom: 16px;
+}
+
+.question-card__tags {
+  margin-bottom: 8px;
+}
+
+.question-card__tag {
+  display: inline-block;
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+
+.question-card__details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.question-card__date {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.question-card__view-details {
+  background-color: #4285f4;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .question-card {
+    flex-direction: column;
+  }
+
+  .question-card__voting {
+    margin-bottom: 16px;
+  }
+
+  .question-card__content {
+    margin-right: 0;
+  }
+
+  .question-card__details {
+    align-items: flex-start;
+  }
+}
+
+/* Tooltip Styles */
+.question-card__title:hover + .question-card__tooltip {
+  display: block;
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  padding: 8px;
+  border-radius: 4px;
+  z-index: 1;
+  white-space: normal;
+  max-width: 400px;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Score Color Styles */
+.question-card__score.positive {
+  color: green;
+}
+
+.question-card__score.negative {
+  color: red;
+}
