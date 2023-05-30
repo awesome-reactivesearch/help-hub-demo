@@ -55,7 +55,7 @@ const App = () => {
           {<AIButton text="Ask AI" onClick={handleAskAIClick} />}
         </div>
         <br />
-        <div className="row">
+        <div className="row --main-content-wrapper">
           <div className="col">
             <ResponsiveWrapper
               showAIAnswer={showAIAnswer}
@@ -88,7 +88,15 @@ const App = () => {
                   />
                 );
               }}
-              loader={"Loading... 🔎"}
+              loader={
+                <div className="results-loader">
+                  <img
+                    src="https://i.gifer.com/ZWdx.gif"
+                    alt="results-loading"
+                    width="100%"
+                  />
+                </div>
+              }
               showLoader
             />
           </div>
@@ -106,6 +114,7 @@ const App = () => {
               onValueChange={(val) => {
                 setSelectedTags(val);
               }}
+              title={"Filter by Tags ☁️"}
             />
           </div>
         </div>

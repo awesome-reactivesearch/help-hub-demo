@@ -34,3 +34,32 @@ code {
 .searchbox-wrapper {
   display: flex;
 }
+
+.result-list-container {
+  position: relative;
+}
+
+.result-list-container .results-loader {
+  position: sticky;
+  height: 100%;
+  width: 100%;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justifty-content: center;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 768px) {
+  .row.--main-content-wrapper {
+    flex-direction: column-reverse;
+  }
+
+  .row.--main-content-wrapper .col:first-child {
+    border-right: none;
+  }
+  .col.tags-filter-wrapper {
+    max-width: 100%;
+  }
+}
