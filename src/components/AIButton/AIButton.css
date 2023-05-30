@@ -10,6 +10,24 @@
   }
 }
 
+@keyframes rotate {
+  0% {
+    transform: scale(1.7) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.7) rotate(180deg);
+  }
+  51% {
+    transform: scale(1.7) rotate(185deg);
+  }
+  52% {
+    transform: scale(1.7) rotate(180deg);
+  }
+  80% {
+    transform: scale(1.7) rotate(360deg);
+  }
+}
+
 .ask-ai-button {
   display: inline-block;
   position: relative;
@@ -55,7 +73,8 @@
 }
 
 .button-emoji svg {
-  transform: scale(1.7);
+  transform: scale(1.7) rotate(0deg);
+  animation: rotate 2s infinite linear;
 }
 
 /* Add additional styles to fit a light and AI-oriented theme */
@@ -65,7 +84,10 @@ body {
 
 .ask-ai-button {
   background-color: #ffffff;
-  color: #333333;
+  color: #333333;    
+  align-self: stretch;
+  height: auto;
+
 }
 
 .ask-ai-button:before {

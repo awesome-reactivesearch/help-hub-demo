@@ -60,6 +60,7 @@ const App = () => {
             <ResponsiveWrapper
               showAIAnswer={showAIAnswer}
               onBackButtonClick={() => setShowAIAnswer(false)}
+              key="responsive-wrapper"
             >
               <AIAnswer
                 componentId="ai-answer"

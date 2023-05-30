@@ -22,7 +22,7 @@ const ResponsiveWrapper = ({ children, onBackButtonClick, showAIAnswer }) => {
   const handleBackButtonClick = () => {
     onBackButtonClick();
   };
-  console.log("rendered responsewrapper", isOverlayVisible, showAIAnswer);
+
   return (
     <div
       className="responsive-wrapper"
