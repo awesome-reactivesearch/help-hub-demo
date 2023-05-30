@@ -18,7 +18,7 @@ const App = () => {
 
   const handleAskAIClick = () => {
     setShowAIAnswer(!!searchValue);
-    triggerQueryRef.current?.({ isOpen: false });
+    triggerQueryRef.current?.({ isOpen: false, value: searchValue });
   };
 
   const handleSearchValueChange = (val, triggerQuery) => {
@@ -52,21 +52,22 @@ const App = () => {
             onChange={handleSearchValueChange}
             style={{ flex: 1 }}
           />
-          {<AIButton text="Ask AI" emoji={"🤖"} onClick={handleAskAIClick} />}
+          {<AIButton text="Ask AI" onClick={handleAskAIClick} />}
         </div>
         <br />
         <div className="row">
           <div className="col">
-            {showAIAnswer && (
-              <ResponsiveWrapper
-                onBackButtonClick={() => setShowAIAnswer(false)}
-              >
-                <AIAnswer
-                  componentId="ai-answer"
-                  react={{ and: "search-sensor" }}
-                />
-              </ResponsiveWrapper>
-            )}
+            <ResponsiveWrapper
+              showAIAnswer={showAIAnswer}
+              onBackButtonClick={() => setShowAIAnswer(false)}
+            >
+              <AIAnswer
+                componentId="ai-answer"
+                react={{ and: "search-sensor" }}
+                key="ai-answer"
+              />
+            </ResponsiveWrapper>
+
             <ReactiveList
               queryFormat="and"
               componentId="SearchResult"

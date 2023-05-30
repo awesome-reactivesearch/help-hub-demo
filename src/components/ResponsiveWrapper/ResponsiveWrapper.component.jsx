@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
 import "./ResponsiveWrapper.css";
 
-const ResponsiveWrapper = ({ children, onBackButtonClick }) => {
+const ResponsiveWrapper = ({ children, onBackButtonClick, showAIAnswer }) => {
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
 
-  const handleResize = () => {
-    const screenWidth = window.innerWidth;
-    if (screenWidth <= 768) {
-      setIsOverlayVisible(true);
-    } else {
-      setIsOverlayVisible(false);
-    }
-  };
-
   useEffect(() => {
+    const handleResize = () => {
+      const screenWidth = window.innerWidth;
+      if (screenWidth <= 768) {
+        setIsOverlayVisible(true);
+      } else {
+        setIsOverlayVisible(false);
+      }
+    };
     handleResize(); // Initial check on component mount
     window.addEventListener("resize", handleResize); // Listen for window resize events
     return () => {
@@ -23,16 +22,28 @@ const ResponsiveWrapper = ({ children, onBackButtonClick }) => {
   const handleBackButtonClick = () => {
     onBackButtonClick();
   };
-
+  console.log("rendered responsewrapper", isOverlayVisible, showAIAnswer);
   return (
-    <div className="responsive-wrapper">
+    <div
+      className="responsive-wrapper"
+      style={
+        !showAIAnswer
+          ? {
+              height: 0,
+              overflow: "hidden",
+              zIndex: -5,
+              opacity: 0,
+            }
+          : {}
+      }
+    >
       {isOverlayVisible ? (
         <div className="responsive-wrapper__overlay">
           <button
             className="responsive-wrapper__back-button"
             onClick={handleBackButtonClick}
           >
-            Back
+            ⬅ Back
           </button>
           {children}
         </div>
@@ -43,4 +54,4 @@ const ResponsiveWrapper = ({ children, onBackButtonClick }) => {
   );
 };
 
-export default ResponsiveWrapper;
+export default React.memo(ResponsiveWrapper);

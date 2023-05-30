@@ -20,9 +20,22 @@
 .responsive-wrapper__overlay .--ai-chat-box-wrapper {
   height: 100%;
   margin-bottom: 0;
+  padding-top: 4rem;
 }
 
 .responsive-wrapper__overlay .--ai-chat-box-wrapper .--ai-messages-container {
   max-height: unset;
   flex: 1;
+}
+
+button.responsive-wrapper__back-button {
+  position: absolute;
+  top: 0;
+  z-index: 5;
+  margin: 10px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #5392e9;
+  background-color: #fafafa;
 }
