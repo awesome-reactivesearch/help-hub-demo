@@ -38,7 +38,7 @@ const App = () => {
       <div className="col">
         <div className="searchbox-wrapper">
           <SearchBox
-            dataField={["title", "title.search"]}
+            dataField={["title", "title.search", "body", "body.search"]}
             componentId="search-sensor"
             highlight
             size={5}
@@ -104,7 +104,7 @@ const App = () => {
             <TagCloud
               componentId="tags-filter"
               dataField="tags"
-              showCount={true}
+              showCount={false}
               multiSelect={true}
               react={{
                 and: ["search-sensor"],

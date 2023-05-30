@@ -10,12 +10,14 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+  white-space: break-spaces;
 }
 
 .row {
   display: flex;
   flex-direction: row;
   width: 100%;
+  flex-wrap: wrap-reverse;
 }
 
 .col {
@@ -51,9 +53,15 @@ code {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
+.tags-filter-wrapper span {
+      font-size: 2rem !important;
+
+}
+
 @media (max-width: 768px) {
   .row.--main-content-wrapper {
     flex-direction: column-reverse;
+    flex-wrap: unset;
   }
 
   .row.--main-content-wrapper .col:first-child {
