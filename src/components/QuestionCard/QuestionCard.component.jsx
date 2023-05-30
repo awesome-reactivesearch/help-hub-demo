@@ -22,7 +22,8 @@ const QuestionCard = ({ record, selectedTags }) => {
     return suffix;
   };
 
-  const scoreClassName = record.score > 0 ? "positive" : "negative";
+  const scoreClassName =
+    record.score !== 0 ? (record.score > 0 ? "positive" : "negative") : "";
   const recordTags = typeof tags === "string" ? tags.split(",") : [...tags];
   return (
     <div className="question-card">
