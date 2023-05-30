@@ -98,6 +98,9 @@ const App = () => {
                 </div>
               }
               showLoader
+              defaultQuery={() => {
+                return { track_total_hits: true };
+              }}
             />
           </div>
           <div className="col tags-filter-wrapper">
