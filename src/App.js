@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   ReactiveBase,
   SearchBox,
@@ -14,9 +14,16 @@ const App = () => {
   const [selectedTags, setSelectedTags] = useState([]);
   const [showAIAnswer, setShowAIAnswer] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const triggerQueryRef = useRef(null);
 
   const handleAskAIClick = () => {
     setShowAIAnswer(!!searchValue);
+    triggerQueryRef.current?.({ isOpen: false });
+  };
+
+  const handleSearchValueChange = (val, triggerQuery) => {
+    setSearchValue(val);
+    triggerQueryRef.current = val ? triggerQuery : null;
   };
 
   return (
@@ -34,7 +41,6 @@ const App = () => {
             dataField={["title", "title.search"]}
             componentId="search-sensor"
             highlight
-            URLParams
             size={5}
             enableRecentSuggestions
             recentSuggestionsConfig={{ size: 2, minChars: 3 }}
@@ -43,9 +49,7 @@ const App = () => {
               console.log("current seachbox value", val);
             }}
             value={searchValue}
-            onChange={(val) => {
-              setSearchValue(val);
-            }}
+            onChange={handleSearchValueChange}
             style={{ flex: 1 }}
           />
           {<AIButton text="Ask AI" emoji={"🤖"} onClick={handleAskAIClick} />}

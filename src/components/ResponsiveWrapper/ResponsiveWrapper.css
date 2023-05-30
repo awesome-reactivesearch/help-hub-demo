@@ -3,20 +3,26 @@
 }
 
 .responsive-wrapper__overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(224 224 224 / 80%);
-    z-index: 999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    align-items: flex-start;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(224 224 224 / 80%);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.responsive-wrapper__content {
-  display: none;
+.responsive-wrapper__overlay .--ai-chat-box-wrapper {
+  height: 100%;
+  margin-bottom: 0;
+}
+
+.responsive-wrapper__overlay .--ai-chat-box-wrapper .--ai-messages-container {
+  max-height: unset;
+  flex: 1;
 }

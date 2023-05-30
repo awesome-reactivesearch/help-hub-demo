@@ -26,7 +26,7 @@ const ResponsiveWrapper = ({ children, onBackButtonClick }) => {
 
   return (
     <div className="responsive-wrapper">
-      {isOverlayVisible && (
+      {isOverlayVisible ? (
         <div className="responsive-wrapper__overlay">
           <button
             className="responsive-wrapper__back-button"
@@ -36,10 +36,9 @@ const ResponsiveWrapper = ({ children, onBackButtonClick }) => {
           </button>
           {children}
         </div>
+      ) : (
+        <div className={"responsive-wrapper__content"}>{children}</div>
       )}
-      <div className={!isOverlayVisible ? "responsive-wrapper__content" : ""}>
-        {children}
-      </div>
     </div>
   );
 };
