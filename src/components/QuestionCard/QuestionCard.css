@@ -136,10 +136,27 @@
 /* Score Color Styles */
 .question-card__score.positive {
   color: green;
+  position: relative;
+}
+.question-card__score.positive:after {
+  content: "\1403";
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .question-card__score.negative {
   color: red;
+  position: relative;
+}
+
+.question-card__score.negative:after {
+  content: "\1401";
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .col.tags-filter-wrapper {
