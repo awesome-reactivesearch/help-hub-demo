@@ -3,7 +3,7 @@ import "./QuestionDetailsModal.css";
 import { formatDate } from "../../utils";
 
 const QuestionDetailsModal = ({ record, onClose }) => {
-  const { title, body, tags, creationDate, closedDate, answers } = record;
+  const { title, body, tags, creationDate, answers } = record;
   const [collapsedAnswers, setCollapsedAnswers] = useState(
     [...Array(answers.length).keys()].slice(1)
   );
@@ -33,7 +33,7 @@ const QuestionDetailsModal = ({ record, onClose }) => {
         <div className="question-details-modal__body">
           <div className="question-details-modal__dates">
             <p>
-              Created: <span>{formatDate(creationDate)}</span>
+              Asked: <span>{formatDate(creationDate)}</span>
             </p>
           </div>
           <div className="question-details-modal__tags">
@@ -53,29 +53,33 @@ const QuestionDetailsModal = ({ record, onClose }) => {
           <div className="question-details-modal__answers">
             <h3>Answers</h3>
             <div className="question-details-modal__answer-container">
-              {answers.map((answer, index) => (
-                <div className="question-details-modal__answer" key={index}>
-                  <div
-                    className={`question-details-modal__answer-header ${
-                      index === 0 ? "expanded" : "collapsed"
-                    }`}
-                    onClick={() => toggleAnswerCollapse(index)}
-                  >
-                    <button className="question-details-modal__collapse-button">
-                      {collapsedAnswers.includes(index) ? "+" : "-"}
-                    </button>
-                    <h4>Answer {index + 1}</h4>
-                    <p className="question-details-modal__answer-date">
-                      {formatDate(answer.CreationDate)}
-                    </p>
-                  </div>
-                  {!collapsedAnswers.includes(index) && (
-                    <div className="question-details-modal__answer-body">
-                      <p dangerouslySetInnerHTML={{ __html: answer.Body }} />
+              {answers
+                .sort((a, b) => {
+                  return b.Score > a.Score ? 1 : -1;
+                })
+                .map((answer, index) => (
+                  <div className="question-details-modal__answer" key={index}>
+                    <div
+                      className={`question-details-modal__answer-header ${
+                        index === 0 ? "expanded" : "collapsed"
+                      }`}
+                      onClick={() => toggleAnswerCollapse(index)}
+                    >
+                      <button className="question-details-modal__collapse-button">
+                        {collapsedAnswers.includes(index) ? "+" : "-"}
+                      </button>
+                      <h4>Answer {index + 1}</h4>
+                      <p className="question-details-modal__answer-date">
+                        {formatDate(answer.CreationDate)}
+                      </p>
                     </div>
-                  )}
-                </div>
-              ))}
+                    {!collapsedAnswers.includes(index) && (
+                      <div className="question-details-modal__answer-body">
+                        <p dangerouslySetInnerHTML={{ __html: answer.Body }} />
+                      </div>
+                    )}
+                  </div>
+                ))}
             </div>
           </div>
         </div>

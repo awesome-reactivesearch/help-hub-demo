@@ -34,6 +34,7 @@ const App = () => {
         recordAnalytics: true,
         userId: "jon",
       }}
+      initialQueriesSyncTime={500}
     >
       <div className="col">
         <div className="searchbox-wrapper">
