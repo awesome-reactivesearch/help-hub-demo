@@ -38,19 +38,25 @@ const App = () => {
       <div className="col">
         <div className="searchbox-wrapper">
           <SearchBox
-            dataField={["title", "title.search", "body", "body.search"]}
+            dataField={[
+              { field: "title", weight: 10 },
+              { field: "title.search", weight: 1 },
+              { field: "body", weight: 1 },
+              { field: "body.search", weight: 0.1 },
+            ]}
             componentId="search-sensor"
             highlight
             size={5}
             enableRecentSuggestions
             recentSuggestionsConfig={{ size: 2, minChars: 3 }}
             queryFormat="and"
-            onValueSelected={(val) => {
-              console.log("current seachbox value", val);
-            }}
+            enablePredictiveSuggestions
             value={searchValue}
             onChange={handleSearchValueChange}
             style={{ flex: 1 }}
+            beforeValueChange={() => {
+              setSelectedTags([]);
+            }}
           />
           {<AIButton text="Ask AI" onClick={handleAskAIClick} />}
         </div>
@@ -79,6 +85,18 @@ const App = () => {
               react={{
                 and: ["search-sensor", "tags-filter"],
               }}
+              sortOptions={[
+                {
+                  label: "Relevance",
+                  dataField: "_score",
+                  sortBy: "desc",
+                },
+                {
+                  label: "Popularity",
+                  dataField: "score",
+                  sortBy: "desc",
+                },
+              ]}
               renderItem={(item) => {
                 return (
                   <QuestionCard
@@ -114,10 +132,17 @@ const App = () => {
               }}
               loader="Loading Tags... 🏷️"
               queryFormat="and"
-              onValueChange={(val) => {
-                setSelectedTags(val);
+              onChange={(val) => {
+                let finalSelectedTags = [];
+                if (selectedTags.includes(val)) {
+                  finalSelectedTags = selectedTags.filter((_) => _ !== val);
+                } else {
+                  finalSelectedTags = [...selectedTags, val];
+                }
+                setSelectedTags(finalSelectedTags);
               }}
               title={"Filter by Tags ☁️"}
+              value={selectedTags}
             />
           </div>
         </div>

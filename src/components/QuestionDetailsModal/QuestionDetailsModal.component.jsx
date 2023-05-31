@@ -22,7 +22,7 @@ const QuestionDetailsModal = ({ record, onClose }) => {
     <div className="question-details-modal">
       <div className="question-details-modal__content">
         <div className="question-details-modal__header">
-          <h2>{title}</h2>
+          <h2 dangerouslySetInnerHTML={{ __html: title }}></h2>
           <button
             className="question-details-modal__close-button"
             onClick={onClose}
@@ -35,11 +35,6 @@ const QuestionDetailsModal = ({ record, onClose }) => {
             <p>
               Created: <span>{formatDate(creationDate)}</span>
             </p>
-            {closedDate && (
-              <p>
-                Closed: <span>{formatDate(closedDate)}</span>
-              </p>
-            )}
           </div>
           <div className="question-details-modal__tags">
             <div className="question-details-modal__tag-container">

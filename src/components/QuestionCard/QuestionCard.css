@@ -66,8 +66,7 @@
   border-radius: 4px;
   margin-right: 8px;
   margin-bottom: 8px;
-      cursor: default;
-
+  cursor: default;
 }
 .question-card__tag.--tag-selected {
   background-color: #316aff;
@@ -106,11 +105,6 @@
     flex-direction: column;
   }
 
-  .question-card__voting {
-        margin-top: 16px;
-
-  }
-
   .question-card__content {
     margin-right: 0;
   }
@@ -120,7 +114,7 @@
     align-items: center;
   }
 
-  .question-card__date{
+  .question-card__date {
     margin-bottom: 0;
   }
 }
@@ -145,6 +139,7 @@
 .question-card__score.positive {
   color: green;
   position: relative;
+  margin-top: 16px;
 }
 .question-card__score.positive:after {
   content: "\1403";
@@ -157,6 +152,7 @@
 .question-card__score.negative {
   color: red;
   position: relative;
+  margin-bottom: 16px;
 }
 
 .question-card__score.negative:after {
@@ -166,5 +162,3 @@
   left: 50%;
   transform: translateX(-50%);
 }
-
-
