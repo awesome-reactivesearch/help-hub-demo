@@ -10,11 +10,19 @@ import QuestionCard from "./components/QuestionCard/QuestionCard.component";
 import AIButton from "./components/AIButton/AIButton.component";
 import ResponsiveWrapper from "./components/ResponsiveWrapper/ResponsiveWrapper.component";
 
+const COMPONENT_ID_S = {
+  TAG_FILTER: "tags-filter",
+  SEARCH_SENSOR: "search-sensor",
+  SEARCH_RESULT: "search-result",
+  AI_ANSWER: "ai-answer",
+};
+
 const App = () => {
   const [selectedTags, setSelectedTags] = useState([]);
   const [showAIAnswer, setShowAIAnswer] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const triggerQueryRef = useRef(null);
+  const resetSelectedTag = useRef(false);
 
   const handleAskAIClick = () => {
     setShowAIAnswer(!!searchValue);
@@ -26,6 +34,22 @@ const App = () => {
     triggerQueryRef.current = val ? triggerQuery : null;
   };
 
+  const handleTransformRequest = (req) => {
+    const parsedBody = JSON.parse(req.body);
+    const newQueryBody = parsedBody.query.map((obj) => {
+      if (obj.id === COMPONENT_ID_S.TAG_FILTER && resetSelectedTag.current) {
+        delete obj.value;
+      }
+
+      return obj;
+    });
+
+    return {
+      ...req,
+      body: JSON.stringify({ ...parsedBody, query: newQueryBody }),
+    };
+  };
+
   return (
     <ReactiveBase
       app="stackoverflow-dataset"
@@ -35,6 +59,8 @@ const App = () => {
         userId: "jon",
       }}
       initialQueriesSyncTime={500}
+      transformRequest={handleTransformRequest}
+      key={"app"}
     >
       <div className="col">
         <div className="searchbox-wrapper">
@@ -45,7 +71,7 @@ const App = () => {
               { field: "body", weight: 1 },
               { field: "body.search", weight: 0.1 },
             ]}
-            componentId="search-sensor"
+            componentId={COMPONENT_ID_S.SEARCH_SENSOR}
             highlight
             size={5}
             enableRecentSuggestions
@@ -56,6 +82,9 @@ const App = () => {
             onChange={handleSearchValueChange}
             style={{ flex: 1 }}
             beforeValueChange={() => {
+              resetSelectedTag.current = true;
+            }}
+            onValueSelected={() => {
               setSelectedTags([]);
             }}
           />
@@ -70,21 +99,21 @@ const App = () => {
               key="responsive-wrapper"
             >
               <AIAnswer
-                componentId="ai-answer"
-                react={{ and: "search-sensor" }}
+                componentId={COMPONENT_ID_S.AI_ANSWER}
+                react={{ and: COMPONENT_ID_S.SEARCH_SENSOR }}
                 key="ai-answer"
               />
             </ResponsiveWrapper>
 
             <ReactiveList
               queryFormat="and"
-              componentId="SearchResult"
+              componentId={COMPONENT_ID_S.SEARCH_RESULT}
               dataField="title"
               size={10}
               className="result-list-container"
               pagination
               react={{
-                and: ["search-sensor", "tags-filter"],
+                and: [COMPONENT_ID_S.SEARCH_SENSOR, COMPONENT_ID_S.TAG_FILTER],
               }}
               sortOptions={[
                 {
@@ -124,12 +153,12 @@ const App = () => {
           </div>
           <div className="col tags-filter-wrapper">
             <TagCloud
-              componentId="tags-filter"
+              componentId={COMPONENT_ID_S.TAG_FILTER}
               dataField="tags"
               showCount={false}
               multiSelect={true}
               react={{
-                and: ["search-sensor"],
+                and: [COMPONENT_ID_S.SEARCH_SENSOR],
               }}
               loader="Loading Tags... 🏷️"
               queryFormat="and"
@@ -141,6 +170,7 @@ const App = () => {
                   finalSelectedTags = [...selectedTags, val];
                 }
                 setSelectedTags(finalSelectedTags);
+                resetSelectedTag.current = false;
               }}
               title={"Filter by Tags ☁️"}
               value={selectedTags}
