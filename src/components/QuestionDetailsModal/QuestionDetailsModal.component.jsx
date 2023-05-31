@@ -33,7 +33,7 @@ const QuestionDetailsModal = ({ record, onClose }) => {
         <div className="question-details-modal__body">
           <div className="question-details-modal__dates">
             <p>
-              Asked: <span>{formatDate(creationDate)}</span>
+              Asked on <span>{formatDate(creationDate)}</span>
             </p>
           </div>
           <div className="question-details-modal__tags">
